@@ -38,16 +38,24 @@ export default function Register() {
     e.preventDefault();
     setError('');
     setSuccess('');
-    
+
     if (!account) {
       setError('Please connect your wallet first.');
       return;
     }
 
-    if (!formData.terms) {
-      setError('You must accept the terms and conditions.');
-      return;
-    }
+    // Strip non-digit characters (handles spaces, dashes, +91 prefix, etc.)
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+
+    // --- Client-side pre-flight validation (mirrors contract require checks) ---
+    if (!formData.firstName.trim()) { setError('First name is required.'); return; }
+    if (!formData.lastName.trim())  { setError('Last name is required.'); return; }
+    if (!formData.email.trim())     { setError('Email is required.'); return; }
+    if (cleanPhone.length !== 10)   { setError(`Phone must be exactly 10 digits (you entered ${cleanPhone.length}).`); return; }
+    if (!formData.role)             { setError('Please select a valid role.'); return; }
+    if (formData.password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    if (!formData.terms)            { setError('You must accept the terms and conditions.'); return; }
+    if (!formData.id.trim())        { setError('User ID is required.'); return; }
 
     try {
       setLoading(true);
@@ -56,7 +64,7 @@ export default function Register() {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
-        phone: formData.phone,
+        phone: cleanPhone,          // ← digits-only, exactly 10 chars
         role: formData.role,
         password: formData.password,
         terms: formData.terms,
@@ -70,7 +78,6 @@ export default function Register() {
 
       await registerUser(userInput, account);
       setSuccess('Registration successful! You can now login.');
-      // clear form if desired, or redirect
     } catch (err) {
       setError(parseWeb3Error(err));
     } finally {
@@ -123,7 +130,8 @@ export default function Register() {
             </div>
             <div>
               <label className="label-text">Phone</label>
-              <input name="phone" placeholder="10-digit number" value={formData.phone} onChange={handleChange} required minLength={10} maxLength={10} className="input-field" />
+              <input name="phone" placeholder="10-digit number (e.g. 9876543210)" value={formData.phone} onChange={handleChange} required maxLength={14} className="input-field" />
+              <p className="text-xs text-slate-400 mt-1">Digits only, no spaces or dashes (exactly 10)</p>
             </div>
             
             <div className="md:col-span-2">

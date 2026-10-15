@@ -39,19 +39,32 @@ export default function Profile() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <span className="text-slate-500 text-sm block mb-1">Email</span>
-              <strong className="text-slate-900">{user.details.email}</strong>
+              {/* user.email holds the plain-text email; user.details.emailHash is the on-chain bytes32 hash */}
+              <strong className="text-slate-900">{user.email || '—'}</strong>
             </div>
             <div>
               <span className="text-slate-500 text-sm block mb-1">Phone</span>
-              <strong className="text-slate-900">{user.details.phone}</strong>
+              <strong className="text-slate-900">{user.details.phone || '—'}</strong>
             </div>
             <div>
               <span className="text-slate-500 text-sm block mb-1">System ID (Reg ID)</span>
-              <strong className="text-slate-900 font-mono text-sm">{user.details.id}</strong>
+              <strong className="text-slate-900 font-mono text-sm">{user.details.id || '—'}</strong>
             </div>
             <div className="sm:col-span-2">
-              <span className="text-slate-500 text-sm block mb-1">Company Address</span>
-              <strong className="text-slate-900">{user.details.companyAddress}</strong>
+              <span className="text-slate-500 text-sm block mb-1">Address</span>
+              {/* addressDetails is a nested struct: { street, city, state, zip } */}
+              {user.details.addressDetails ? (
+                <strong className="text-slate-900">
+                  {[
+                    user.details.addressDetails.street,
+                    user.details.addressDetails.city,
+                    user.details.addressDetails.state,
+                    user.details.addressDetails.zip
+                  ].filter(Boolean).join(', ') || '—'}
+                </strong>
+              ) : (
+                <strong className="text-slate-900">—</strong>
+              )}
             </div>
           </div>
         </div>
