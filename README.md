@@ -1,5 +1,34 @@
 # Medicine Cold Chain Integrity System
 
+## Tech Stack Used
+This project is built using a modern blockchain-enabled web stack designed for secure tracking and transparent pharmaceutical supply-chain operations.
+
+- **Frontend:** React.js, Vite, CSS, React Router
+- **Blockchain & Smart Contracts:** Solidity, Ethereum, Web3.js, MetaMask
+- **Data Visualization:** Chart.js and react-chartjs-2
+- **Authentication & Access Control:** Role-based smart contract logic with wallet-based user identity
+- **QR & Device Integration:** QR code generation/scanning for traceability and batch verification
+- **Development Tools:** Node.js, npm, ESLint, Vite
+
+## Deployment
+The application is designed for decentralized deployment and uses a hybrid architecture:
+
+- **Frontend Deployment:** The React application can be deployed on a cloud hosting platform such as Vercel for production use.
+- **Smart Contract Deployment:** Solidity contracts are deployed on the Ethereum Sepolia test network for testing and validation.
+- **Wallet Integration:** MetaMask is used to connect the frontend to the blockchain and approve transactions.
+- **Runtime Environment:** The dApp runs locally via Vite during development and connects to deployed contracts through environment variables and Web3 providers.
+
+## Smart Contract Simulation and Testing
+The smart contracts were developed and simulated using **Remix IDE**, which is the primary tool used for:
+
+- Writing Solidity smart contracts
+- Compiling and validating contract code
+- Deploying contracts to test networks or local EVM environments
+- Testing function logic, role restrictions, and events before integrating with the frontend
+- Verifying cold-chain condition checks and medicine lifecycle transitions
+
+Remix IDE was used as the simulation and testing environment to validate business logic before connecting the application to the deployed blockchain network.
+
 ## 1. Project Overview
 The Medicine Cold Chain Integrity System is a blockchain-based pharmaceutical supply-chain application. It provides a secure, decentralized architecture to track medicine from manufacturing through distribution to retail pharmacies. The system integrates robust supply-chain lifecycle enforcement with a strict on-chain cold-chain integrity layer, guaranteeing that temperature constraints are strictly audited and verified using immutable Ethereum blockchain records.
 
